@@ -3,7 +3,8 @@ import "./App.css";
 import { Container, FormGroup, Form, Input, Label, Button } from "reactstrap";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
-// const serverURI = "https://enigmatic-sierra-05542.herokuapp.com/";a
+// const serverURI = "https://enigmatic-sierra-05542.herokuapp.com/";
+const serverURI = "https://mern-chat-app-socketio.herokuapp.com";
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class App extends React.Component {
 
     this.socket = socketIOClient();
 
-    this.socket.on("message", () => this.getMessages());
+    this.socket.on("message", () => this.getMessages(serverURI));
     this.socket.on("hello", (message) => console.log(message));
   }
 
@@ -30,7 +31,7 @@ class App extends React.Component {
 
   getMessages() {
     axios
-      .get("/messages")
+      .get(serverURI + "/messages")
       .then((res) =>
         this.setState({
           messages: res.data.map((message) => (
@@ -67,13 +68,13 @@ class App extends React.Component {
   handleSubmit(e) {
     if (e.key === "Enter" || !e.key) {
       e.preventDefault();
-      axios.post("/messages", this.state);
+      axios.post(serverURI + "/messages", this.state);
       this.setState({ message: "" });
     }
   }
 
   handleDelete() {
-    axios.delete("/messages").catch((err) => console.log(err));
+    axios.delete(serverURI + "/messages").catch((err) => console.log(err));
   }
 
   render() {
