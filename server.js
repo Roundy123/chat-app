@@ -58,8 +58,7 @@ app.delete("/messages", (req, res) => {
 });
 
 mongoose.connect(
-  process.env.MONGO_URI ||
-    "mongodb+srv://adam:chatapp123@cluster0-gun9k.mongodb.net/test?retryWrites=true&w=majority",
+  process.env.MONGO_URI || process.env.MONGO_ATLAS_URI,
   { useUnifiedTopology: true },
   (err) => {
     console.log("MongoDB connected. Errors: ", err);
