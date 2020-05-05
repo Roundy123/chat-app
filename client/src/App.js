@@ -16,6 +16,8 @@ class App extends React.Component {
       messages: [],
     };
 
+    this.chatboxRef = React.createRef();
+
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.socket = socketIOClient();
@@ -27,7 +29,17 @@ class App extends React.Component {
   componentDidMount() {
     this.getMessages();
     console.log("mounted");
+    this.scrollToBottom();
   }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+  scrollToBottom = () => {
+    // this.chatboxRef.current.scrollToEnd({ animated: false });
+    this.chatboxRef.current.scrollIntoView({ behavior: "smooth" });
+    // console.log("chat box ref", this.chatboxRef.current);
+  };
 
   getMessages() {
     axios
@@ -88,7 +100,11 @@ class App extends React.Component {
           >
             Delete All Messages
           </Button>
-          <div className="messages">{this.state.messages}</div>
+          <div className="messages">
+            {this.state.messages}
+            {/* dummy ref below for scrolling to bottom */}
+            <div ref={this.chatboxRef} className="message-container-other" />
+          </div>
           <Form onSubmit={this.handleSubmit}>
             <FormGroup>
               <Label for="name">Name</Label>

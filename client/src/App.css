@@ -61,7 +61,7 @@
   .themed-container {
     margin: 0;
     padding: 1px;
-    height: 100vh;
+    height: 100%;
   }
   .messages {
     height: 50vh;
